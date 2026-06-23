@@ -8,7 +8,7 @@ O app sorteia uma palavra e a exibe brevemente na tela. O jogador encosta o celu
 
 ## Como jogar
 
-1. Escolha uma categoria (ou "Todas").
+1. Escolha uma categoria (ou "Todas", ou **Personalizado** para digitar a palavra).
 2. Encoste o celular na testa.
 3. Toque em **Visualizar palavra** — contagem de 3 s começa.
 4. A palavra aparece por 5 s e some.
@@ -29,6 +29,9 @@ O app sorteia uma palavra e a exibe brevemente na tela. O jogador encosta o celu
 | Profissões   | Streamer, Barista, Astronauta…        |
 | Lugares      | Baile funk, Lan house, Cachoeira…     |
 
+Há ainda o modo **Personalizado**: em vez de sortear, uma pessoa digita a palavra
+(o jogador da vez não olha) e o jogo segue o fluxo normal — contagem, revelação e ocultação.
+
 ---
 
 ## Stack
@@ -38,6 +41,7 @@ O app sorteia uma palavra e a exibe brevemente na tela. O jogador encosta o celu
 - Visual: dark industrial brutalist, substrate CRT, accent vermelho hazard.
 - Persistência via `localStorage` — retoma a palavra se o app for fechado.
 - Wake Lock API (quando disponível) — tela não apaga durante a revelação.
+- PWA: `manifest.webmanifest` (instalável no celular) + service worker (`sw.js`) para uso **offline**.
 
 ---
 
@@ -52,7 +56,7 @@ python -m http.server
 
 Abre `http://localhost:3000` (ou a porta que o servidor indicar).
 
-> Não funciona via `file://` por causa da Wake Lock API — use um servidor local.
+> Não funciona via `file://` — a Wake Lock API e o service worker exigem `https` ou `localhost`. Use um servidor local.
 
 ---
 

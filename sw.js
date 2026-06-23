@@ -2,7 +2,7 @@
 // Pré-cacheia o app shell e serve do cache quando não há rede.
 // Para forçar atualização após mudar arquivos: suba o número da versão.
 
-const CACHE = "quem-sou-eu-v1";
+const CACHE = "quem-sou-eu-v2";
 
 const APP_SHELL = [
   "./",

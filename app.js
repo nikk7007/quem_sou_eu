@@ -12,6 +12,7 @@
   // --- Chaves de localStorage ---
   const K_ATUAL = "quemSouEu:atual"; // { categoria, palavra }
   const K_USADAS = "quemSouEu:usadas"; // { [categoria]: [palavras...] }
+  const PERSONALIZADO = "personalizado"; // modo: o jogador digita a palavra
 
   // --- Estado em memória ---
   let estado = "categoria";
@@ -92,6 +93,13 @@
     });
   }
 
+  // Nome amigável da categoria para exibição.
+  function nomeCategoria(cat) {
+    if (cat === "todas") return "Todas as categorias";
+    if (cat === PERSONALIZADO) return "Personalizado";
+    return cat;
+  }
+
   // --- Sortear e salvar a palavra atual ---
   function novaPalavra(categoria) {
     const palavra = sortearPalavra(categoria, usadasDe(categoria));
@@ -115,15 +123,14 @@
   function entrarPronto() {
     soltarWakeLock();
     const el = document.getElementById("readyCat");
-    el.textContent = atual.categoria === "todas" ? "Todas as categorias" : atual.categoria;
+    el.textContent = nomeCategoria(atual.categoria);
     irPara("pronto");
   }
 
   function iniciarPartida() {
     pedirWakeLock();
     irPara("preparar");
-    document.getElementById("preparaCat").textContent =
-      atual.categoria === "todas" ? "Todas as categorias" : atual.categoria;
+    document.getElementById("preparaCat").textContent = nomeCategoria(atual.categoria);
     let n = Math.round(PREP_MS / 1000);
     const cd = document.getElementById("countdown");
     cd.textContent = String(n);
@@ -169,8 +176,7 @@
     soltarWakeLock();
     // Remove a palavra do DOM ao sair da revelação.
     document.getElementById("word").textContent = "";
-    document.getElementById("ocultosCat").textContent =
-      atual.categoria === "todas" ? "Todas as categorias" : atual.categoria;
+    document.getElementById("ocultosCat").textContent = nomeCategoria(atual.categoria);
     estado = "oculto";
     render();
   }
@@ -198,10 +204,38 @@
       btn.addEventListener("click", () => escolherCategoria(c));
       cont.appendChild(btn);
     });
+
+    // Card destacado: modo personalizado (o jogador escreve a palavra).
+    const custom = document.createElement("button");
+    custom.className = "cat cat-custom";
+    custom.innerHTML =
+      '<span class="cat-todas-text">' +
+        '<span class="cat-name">Personalizado</span>' +
+        '<span class="cat-sub">você escreve a palavra</span>' +
+      "</span>";
+    custom.addEventListener("click", abrirPersonalizado);
+    cont.appendChild(custom);
   }
 
   function escolherCategoria(categoria) {
     novaPalavra(categoria);
+    entrarPronto();
+  }
+
+  // --- Modo personalizado: o jogador digita a própria palavra ---
+  function abrirPersonalizado() {
+    const input = document.getElementById("inputPalavra");
+    input.value = "";
+    irPara("personalizado");
+    setTimeout(() => input.focus(), 60); // abre o teclado após a transição
+  }
+
+  function confirmarPersonalizado(texto) {
+    const palavra = (texto || "").trim();
+    if (!palavra) return; // ignora envio vazio
+    atual = { categoria: PERSONALIZADO, palavra: palavra };
+    salvarJSON(K_ATUAL, atual);
+    document.getElementById("inputPalavra").value = "";
     entrarPronto();
   }
 
@@ -220,8 +254,23 @@
     document.getElementById("btnLerDeNovo").addEventListener("click", iniciarPartida);
 
     document.getElementById("btnNovaPalavra").addEventListener("click", () => {
+      if (atual.categoria === PERSONALIZADO) {
+        abrirPersonalizado(); // no modo custom, digita outra palavra
+        return;
+      }
       novaPalavra(atual.categoria);
       entrarPronto();
+    });
+
+    document.getElementById("formPersonalizado").addEventListener("submit", (e) => {
+      e.preventDefault();
+      confirmarPersonalizado(document.getElementById("inputPalavra").value);
+    });
+
+    document.getElementById("btnCancelarCustom").addEventListener("click", () => {
+      atual = null;
+      localStorage.removeItem(K_ATUAL);
+      irPara("categoria");
     });
   }
 

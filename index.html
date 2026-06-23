@@ -128,6 +128,34 @@
           </button>
         </div>
       </section>
+
+      <!-- 6. Personalizado (alguém digita a palavra) -->
+      <section class="screen" data-screen="personalizado">
+        <div class="ready">
+          <p class="ready-cat">Personalizado</p>
+          <p class="custom-title">Digite a palavra</p>
+          <p class="ready-hint">
+            Outra pessoa digita — o jogador da vez não olha.
+          </p>
+        </div>
+        <form class="actions" id="formPersonalizado">
+          <input
+            class="custom-input"
+            id="inputPalavra"
+            type="text"
+            inputmode="text"
+            autocomplete="off"
+            autocapitalize="characters"
+            maxlength="40"
+            placeholder="ex: Capivara"
+            aria-label="Palavra personalizada"
+          />
+          <button class="btn btn-primary" type="submit">Usar palavra</button>
+          <button class="btn btn-ghost" type="button" id="btnCancelarCustom">
+            Voltar ao início
+          </button>
+        </form>
+      </section>
     </main>
 
     <!-- HUD telemetry frame -->

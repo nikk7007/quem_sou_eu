@@ -217,6 +217,23 @@ body {
   gap: 3px;
 }
 
+/* "personalizado" spanning unit */
+.cat-custom {
+  grid-column: 1 / -1;
+  min-height: 88px;
+}
+.cat-custom .cat-name { font-size: 1rem; }
+.cat-custom::after {
+  content: "[ EDIT ]";
+  position: absolute;
+  top: 6px;
+  right: 8px;
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
+  color: var(--faint);
+}
+.cat-custom:hover::after { color: var(--acc); }
+
 /* ---- Ready & Hidden screens ------------------------------------------- */
 
 .ready { max-width: 520px; width: 100%; }
@@ -260,6 +277,44 @@ body {
   max-width: 40ch;
 }
 .ready-hint::before { content: ">> "; color: var(--acc-dim); }
+
+/* ---- Custom word screen ----------------------------------------------- */
+
+.custom-title {
+  font-family: var(--display);
+  font-size: clamp(1.8rem, 7vw, 3rem);
+  font-weight: 900;
+  letter-spacing: -0.03em;
+  line-height: 0.95;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+
+.custom-input {
+  appearance: none;
+  width: 100%;
+  background: var(--panel);
+  border: 1px solid var(--fg);
+  border-radius: 0;
+  color: var(--fg);
+  font-family: var(--mono);
+  font-weight: 600;
+  font-size: 1rem;
+  letter-spacing: 0.06em;
+  text-align: center;
+  text-transform: uppercase;
+  padding: 18px 20px;
+  min-height: 56px;
+}
+.custom-input::placeholder {
+  color: var(--faint);
+  text-transform: none;
+  letter-spacing: 0.04em;
+}
+.custom-input:focus {
+  outline: none;
+  border-color: var(--acc);
+}
 
 /* ---- Buttons ---------------------------------------------------------- */
 
