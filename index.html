@@ -7,7 +7,47 @@
       content="width=device-width, initial-scale=1.0, viewport-fit=cover"
     />
     <meta name="theme-color" content="#0a0a0a" />
-    <title>Quem sou eu?</title>
+    <meta
+      name="description"
+      content="Quem sou eu? é um jogo de adivinhação para grupos: o app sorteia uma palavra, você encosta o celular na testa e os amigos dão dicas. Web, grátis, sem instalar."
+    />
+    <title>Quem sou eu? — Jogo de adivinhação para grupos</title>
+    <link rel="canonical" href="https://qse.nikolasleme.com.br/" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="pt_BR" />
+    <meta property="og:site_name" content="Quem sou eu?" />
+    <meta property="og:url" content="https://qse.nikolasleme.com.br/" />
+    <meta
+      property="og:title"
+      content="Quem sou eu? — Jogo de adivinhação para grupos"
+    />
+    <meta
+      property="og:description"
+      content="O app sorteia uma palavra, você encosta o celular na testa e os amigos dão dicas. Web, grátis, sem instalar."
+    />
+    <meta
+      property="og:image"
+      content="https://qse.nikolasleme.com.br/assets/og-image.png"
+    />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta
+      name="twitter:title"
+      content="Quem sou eu? — Jogo de adivinhação para grupos"
+    />
+    <meta
+      name="twitter:description"
+      content="O app sorteia uma palavra, você encosta o celular na testa e os amigos dão dicas. Web, grátis, sem instalar."
+    />
+    <meta
+      name="twitter:image"
+      content="https://qse.nikolasleme.com.br/assets/og-image.png"
+    />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -15,7 +55,9 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="styles.css" />
-    <link rel="shortcut icon" href="icon.png" type="image/x-icon" />
+    <link rel="icon" type="image/png" href="assets/favicon.png" />
+    <link rel="apple-touch-icon" href="assets/apple-touch-icon.png" />
+    <link rel="manifest" href="manifest.webmanifest" />
   </head>
   <body>
     <main class="stage">
@@ -100,5 +142,13 @@
 
     <script src="words.js"></script>
     <script src="app.js"></script>
+    <script>
+      // Registra o service worker (offline). Requer https ou localhost.
+      if ("serviceWorker" in navigator) {
+        window.addEventListener("load", function () {
+          navigator.serviceWorker.register("sw.js").catch(function () {});
+        });
+      }
+    </script>
   </body>
 </html>
